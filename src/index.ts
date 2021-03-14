@@ -10,6 +10,7 @@ dotenv.config();
 import authRoutes from './routes/auth';
 import postRoutes from './routes/posts';
 import subRoutes from './routes/subs'
+import commentRoutes from './routes/comments'
 
 import trim from './middleware/trim'
 
@@ -23,6 +24,7 @@ app.get('/',(req,res) => res.send('Hello world'));
 app.use('/api/auth',authRoutes);
 app.use('/api/posts',postRoutes);
 app.use('/api/subs',subRoutes);
+app.use('/api/posts',commentRoutes);
 
 app.listen(5000, async () => {
     console.log('server running on localhost:5000');
