@@ -15,18 +15,19 @@ export default class User extends MyEntity{
     }
 
     @Index()
-    @Length(4,12)
+    @Length(4,12, {message:'Must be at least 4 characters long'})
     @Column({unique:true})
     username:string;
 
     @Index()
-    @IsEmail()
+    @IsEmail(undefined, {message:"Must be a valid email"})
+    @Length(1,255,{message:'Must not be empty'})
     @Column({unique: true})
     email:string;
 
     @Exclude()
     @Column()
-    @Length(6,18)
+    @Length(6,18, {message:'Must be at least 6 characters long'})
     password:string;
 
     
