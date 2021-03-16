@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import {Entity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany} from "typeorm";
 import { make62BaseId, slugify } from "../utils/base62";
 import Comment from "./Comment";
@@ -5,6 +6,7 @@ import Comment from "./Comment";
 import MyEntity from './MyEntity'
 import Sub from "./Sub";
 import User from "./User";
+import Vote from "./Vote";
 //TODO: pass error messages
 
 @Entity("posts")
@@ -30,6 +32,9 @@ export default class Post extends MyEntity{
     
   @Column()
   subName: string;
+  
+  @Column()
+  username:string
 
   @ManyToOne(() => User, user => user.posts)
   @JoinColumn({name:"username", referencedColumnName:"username"})
@@ -41,6 +46,19 @@ export default class Post extends MyEntity{
 
   @OneToMany(() => Comment, comment => comment.post)
   comments: Comment[];
+
+  @OneToMany(() => Vote, vote => vote.post)
+  votes: Vote[];
+
+  @Expose() get url(): string {
+    return `/r/${this.subName}/${this.identifier}/${this.slug}`;
+  }
+
+  protected userVote: number
+  setUserVote(user: User) {
+    const index = this.votes?.findIndex((v) => v.username === user.username)
+    this.userVote = index > -1 ? this.votes[index].value : 0
+  }
 
   @BeforeInsert()
   makeIdAndSlug(){
