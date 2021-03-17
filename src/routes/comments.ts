@@ -2,8 +2,8 @@ import { Router, Request, Response } from "express";
 
 import Comment from '../entities/Comment'
 import Post from "../entities/Post";
-import Sub from "../entities/Sub";
 import auth from '../middleware/auth';
+import user from '../middleware/user'
 
 const createComment = async (req:Request,res:Response) => {
   const {identifier,slug} = req.params;
@@ -25,6 +25,6 @@ const createComment = async (req:Request,res:Response) => {
 
 const router = Router();
 
-router.post('/:identifier/:slug/comments',auth,createComment);
+router.post('/:identifier/:slug/comments',user,auth,createComment);
 
 export default router;

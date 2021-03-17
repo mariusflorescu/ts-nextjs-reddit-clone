@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'meddit';
+  src:
+    url('fonts/meddit.ttf?5smzj0') format('truetype'),
+    url('fonts/meddit.woff?5smzj0') format('woff'),
+    url('fonts/meddit.svg?5smzj0#meddit') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'meddit' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-up:before {
+  content: "\ea32";
+}
+.icon-arrow-down:before {
+  content: "\ea36";
+}

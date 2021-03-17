@@ -5,17 +5,19 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {Post} from '../types';
 
-dayjs.extend(relativeTime);
+import {Vote} from './Vote';
 
+dayjs.extend(relativeTime);
 interface IProps {
-  postKey: string;
   data: Post;
 }
 
-export const PostCard : React.FC<IProps> = ({postKey,data}) =>{
+export const PostCard : React.FC<IProps> = ({data}) =>{
   return (
-    <div key={postKey} className="flex bg-white rounded">
-      <div className="w-10 text-center bg-gray-100 rounded-l">V</div>
+    <div className="flex bg-white rounded">
+      <div className="w-10 text-center bg-gray-100 rounded-l">
+        <Vote post={data}/>
+      </div>
       <div className="w-full p-2 rounded-r">
         <div className="flex items-center">
           <Link href={`/r/${data.subName}`}>
@@ -47,22 +49,20 @@ export const PostCard : React.FC<IProps> = ({postKey,data}) =>{
           <a>
             <div className="p-1 mr-2 space-x-1 text-xs text-gray-500 rounded cursor-pointer hover:bg-gray-200">
               <i className="fas fa-comment-alt fa-xs"></i>
-              <span className="font-bold">30 comments</span>
+              <span className="font-bold">{data.commentCnt} comments</span>
             </div>
           </a>
         </Link>
-
-        <a>
-            <div className="p-1 mr-2 space-x-1 text-xs text-gray-500 rounded cursor-pointer hover:bg-gray-200">
-              <i className="fas fa-bookmark"></i>
-              <span className="font-bold">30 comments</span>
-            </div>
-          </a>
-
           <a>
             <div className="p-1 mr-2 space-x-1 text-xs text-gray-500 rounded cursor-pointer hover:bg-gray-200">
               <i className="fas fa-share fa-xs"></i>
-              <span className="font-bold">30 comments</span>
+              <span className="font-bold">Share</span>
+            </div>
+          </a>
+           <a>
+            <div className="p-1 mr-2 space-x-1 text-xs text-gray-500 rounded cursor-pointer hover:bg-gray-200">
+              <i className="fas fa-bookmark"></i>
+              <span className="font-bold">Save</span>
             </div>
           </a>
       </div>

@@ -6,6 +6,7 @@ import User from './User';
 
 import { make62BaseId } from "../utils/base62";
 import Vote from './Vote';
+import { Exclude } from 'class-transformer';
 
 @Entity('comments')
 export default class Comment extends MyEntity {
@@ -31,6 +32,7 @@ export default class Comment extends MyEntity {
   @ManyToOne(() => Post, post => post.comments, {nullable:false})
   post:Post;
 
+  @Exclude()
   @OneToMany(() => Vote, vote => vote.comment)
   votes: Vote[];
 

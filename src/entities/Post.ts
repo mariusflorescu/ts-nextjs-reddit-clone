@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import {Entity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany} from "typeorm";
 import { make62BaseId, slugify } from "../utils/base62";
 import Comment from "./Comment";
@@ -44,14 +44,24 @@ export default class Post extends MyEntity{
   @JoinColumn({name:"subName", referencedColumnName:"name"})
   sub: Sub;
 
+  @Exclude()
   @OneToMany(() => Comment, comment => comment.post)
   comments: Comment[];
 
+  @Exclude()
   @OneToMany(() => Vote, vote => vote.post)
   votes: Vote[];
 
   @Expose() get url(): string {
     return `/r/${this.subName}/${this.identifier}/${this.slug}`;
+  }
+
+  @Expose() get commentCnt():number{
+    return this.comments?.length;
+  }
+
+  @Expose() get voteScore(): number {
+    return this.votes?.reduce((prev,current) => prev+(current.value||0),0)
   }
 
   protected userVote: number

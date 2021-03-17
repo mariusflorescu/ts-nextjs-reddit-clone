@@ -32,7 +32,7 @@ app.use('/api/auth',authRoutes);
 app.use('/api/posts',postRoutes);
 app.use('/api/subs',subRoutes);
 app.use('/api/posts',commentRoutes);
-app.use('/api/vote',voteRoute);
+app.use('/api/misc',voteRoute);
 
 app.listen(5000, async () => {
     console.log('server running on localhost:5000');
