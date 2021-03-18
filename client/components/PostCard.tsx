@@ -14,7 +14,7 @@ interface IProps {
 
 export const PostCard : React.FC<IProps> = ({data}) =>{
   return (
-    <div className="flex bg-white rounded">
+    <div className="flex transition duration-200 bg-white border border-transparent rounded hover:border-gray-600">
       <div className="w-10 text-center bg-gray-100 rounded-l">
         <Vote post={data}/>
       </div>

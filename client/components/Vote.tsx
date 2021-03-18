@@ -36,7 +36,7 @@ export const Vote : React.FC<IProps> = ({post}) => {
           'text-red-500' : userVoteValue === 1
         })}></i>
       </div>
-      <p className="text-xs font-bold text-gray-400">{voteScore}</p>
+      <p className="text-xs font-bold text-gray-700">{voteScore ? voteScore : "Vote"}</p>
       <div onClick={() => vote(-1)} className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500">
         <i className={classNames("icon-arrow-down", {
           'text-blue-500' : userVoteValue === -1
