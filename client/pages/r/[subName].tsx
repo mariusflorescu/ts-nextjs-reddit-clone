@@ -2,7 +2,7 @@ import {useRouter} from 'next/router'
 import useSWR from 'swr'
 import { Sub } from '../../types';
 
-import {PostCard} from '../../components/Post'
+import {PostCard} from '../../components/PostCard'
 
 export default function SubPage(){
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function SubPage(){
 
       <div className="container flex flex-col mt-4 space-y-2">
         {sub.posts?.map((post) => (
-          <PostCard data={post}/>
+          <PostCard key={post.identifier} data={post}/>
         ))}
       </div>
     </div>

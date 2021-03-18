@@ -4,10 +4,13 @@ import { FormEvent, useState } from 'react';
 import Axios from 'axios'
 import {useRouter} from 'next/router'
 
+import {useAuthDispatch} from '../context/auth'
+
 import Input from '../components/Input'
 
 export default function Register() {
   const router = useRouter()
+  const dispatch = useAuthDispatch()
 
   const [username, setUsername] = useState("");
   const [password,setPassword] = useState("");
@@ -18,9 +21,11 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      await Axios.post('/auth/login', {
+      const res = await Axios.post('/auth/login', {
         username, password
       })
+
+      dispatch({type:'LOGIN',payload:res.data});
 
       router.push('/');
 

@@ -21,11 +21,11 @@ export const PostCard : React.FC<IProps> = ({data}) =>{
       <div className="w-full p-2 rounded-r">
         <div className="flex items-center">
           <Link href={`/r/${data.subName}`}>
-            <Fragment>
               <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" className="w-6 h-6 mr-1 rounded-full cursor-pointer"/>
-              <a className="text-xs font-bold cursor-pointer hover:underline">r/{data.subName}</a>
-          </Fragment>
-        </Link>
+          </Link>
+          <Link href={`/r/${data.subName}`}>
+            <a className="text-xs font-bold cursor-pointer hover:underline">r/{data.subName}</a>
+          </Link>
         <p className="text-xs text-gray-500">
           <span>•</span>
           Posted by <Link href={`/u/${data.username}`}><a className="mx-1 hover:underline">/u/{data.username}</a></Link>

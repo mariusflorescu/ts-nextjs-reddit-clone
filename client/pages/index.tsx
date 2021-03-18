@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Axios from 'axios'
 import useSWR from 'swr'
 
-import {PostCard} from '../components/Post'
+import {PostCard} from '../components/PostCard'
 
 import {Post} from '../types'
 

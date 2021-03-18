@@ -4,6 +4,8 @@ import React,{Fragment} from 'react';
 import Axios from 'axios';
 import {SWRConfig} from 'swr'
 
+import {AuthProvider} from '../context/auth'
+
 import Navbar from '../components/Navbar'
 
 import '../styles/globals.css'
@@ -29,17 +31,19 @@ function MyApp({ Component, pageProps } : AppProps) {
   }
 
   return (
-  <SWRConfig
-    value={{
-      fetcher,
-      dedupingInterval: 10000,
-    }}
-  >
-    <Fragment>
-      {!authRoute && <Navbar/>}
-      <Component {...pageProps}/>
-    </Fragment>
-  </SWRConfig>
+    <AuthProvider>
+      <SWRConfig
+        value={{
+          fetcher,
+          dedupingInterval: 2000,
+        }}
+      >
+        <Fragment>
+          {!authRoute && <Navbar/>}
+          <Component {...pageProps}/>
+        </Fragment>
+      </SWRConfig>
+    </AuthProvider>
   )
 }
 
