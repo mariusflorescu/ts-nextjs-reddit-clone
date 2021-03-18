@@ -27,6 +27,8 @@ app.use(cors({
     optionsSuccessStatus: 200 //old browsers compatibility
 }));
 
+app.use(express.static('public'));
+
 app.get('/',(req,res) => res.send('Hello world'));
 app.use('/api/auth',authRoutes);
 app.use('/api/posts',postRoutes);
