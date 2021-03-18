@@ -12,3 +12,14 @@ export interface Post {
   commentCnt:number;
   voteScore?:number;
 }
+
+export interface Sub{
+  name: string;
+  title: string;
+  description:string;
+  createdAt: string;
+  updatedAt: string;
+  posts?: Post[];
+  imagineUrn:string;
+  bannerUrn:string;
+}

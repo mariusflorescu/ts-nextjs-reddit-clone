@@ -2,6 +2,7 @@ import {AppProps} from 'next/app'
 import {useRouter} from 'next/router'
 import React,{Fragment} from 'react';
 import Axios from 'axios';
+import {SWRConfig} from 'swr'
 
 import Navbar from '../components/Navbar'
 
@@ -16,12 +17,30 @@ function MyApp({ Component, pageProps } : AppProps) {
   const {pathname} = useRouter();
   const authRoutes = ['/register','/login']
 
-  const authRoute = authRoutes.includes(pathname)
+  const authRoute = authRoutes.includes(pathname);
 
-  return (<Fragment>
-    {!authRoute && <Navbar/>}
-    <Component {...pageProps}/>
-  </Fragment>)
+  const fetcher = async (url:string) => {
+    try {
+      const res = await Axios.get(url);
+      return res.data;
+    } catch (err) {
+      throw err.response.data
+    }
+  }
+
+  return (
+  <SWRConfig
+    value={{
+      fetcher,
+      dedupingInterval: 10000,
+    }}
+  >
+    <Fragment>
+      {!authRoute && <Navbar/>}
+      <Component {...pageProps}/>
+    </Fragment>
+  </SWRConfig>
+  )
 }
 
 export default MyApp
