@@ -24,9 +24,10 @@ export interface Sub{
   name: string;
   title: string;
   description:string;
+  username:string;
   createdAt: string;
   updatedAt: string;
   posts?: Post[];
-  imagineUrn:string;
-  bannerUrn:string;
+  imageUrl:string;
+  bannerUrl:string;
 }
