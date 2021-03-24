@@ -1,106 +1,111 @@
 import { isEmpty, validate } from "class-validator";
 import { Request, Response, Router } from "express";
-import User from '../entities/User';
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import cookie from 'cookie'
-import auth from '../middleware/auth';
-import user from '../middleware/user'
+import User from "../entities/User";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookie from "cookie";
+import auth from "../middleware/auth";
+import user from "../middleware/user";
 
 const mapErrors = (errors: Object[]) => {
-  return errors.reduce((prev: any, err: any) => {
-    prev[err.property] = Object.entries(err.constraints)[0][1]
-    return prev
-  }, {})
-}
+	return errors.reduce((prev: any, err: any) => {
+		prev[err.property] = Object.entries(err.constraints)[0][1];
+		return prev;
+	}, {});
+};
 
-const register = async (req:Request,res:Response) => {
-  const {username,email,password} = req.body;
+const register = async (req: Request, res: Response) => {
+	const { username, email, password } = req.body;
 
-  try {
-    let errors:any = {};
-    const username_user = await User.findOne({username});
-    const email_user = await User.findOne({email});
+	try {
+		let errors: any = {};
+		const username_user = await User.findOne({ username });
+		const email_user = await User.findOne({ email });
 
-    if(username_user) errors.username = 'Username taken';
-    if(email_user) errors.email = 'Email taken';
+		if (username_user) errors.username = "Username taken";
+		if (email_user) errors.email = "Email taken";
 
-    if(Object.keys(errors).length > 0){
-      return res.status(400).json(errors);
-    }
+		if (Object.keys(errors).length > 0) {
+			return res.status(400).json(errors);
+		}
 
-    const user = new User({username,email,password});
-    errors = await validate(user);
-    
-    if(errors.length > 0) {
-      return res.status(400).json(mapErrors(errors));
-    };
+		const user = new User({ username, email, password });
+		errors = await validate(user);
 
-    await user.save();
-    
-    return res.json(user);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-}
+		if (errors.length > 0) {
+			return res.status(400).json(mapErrors(errors));
+		}
 
-const login = async (req:Request,res:Response) => {
-  const {username,password} = req.body;
+		await user.save();
 
-  try {
-    let errors:any = {};
+		return res.json(user);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+};
 
-    if(isEmpty(username)) errors.username = 'Username must not be empty';
-    if(isEmpty(password)) errors.password = 'Password must not be empty';
+const login = async (req: Request, res: Response) => {
+	const { username, password } = req.body;
 
-    if(Object.keys(errors).length > 0) {
-      return res.status(400).json(errors);
-    }
+	try {
+		let errors: any = {};
 
-    const user = await User.findOne({username});
-    if(!user) return res.status(401).json({password:"Invalid credentials"});
+		if (isEmpty(username)) errors.username = "Username must not be empty";
+		if (isEmpty(password)) errors.password = "Password must not be empty";
 
-    const passwordHashed = await bcrypt.compare(password,user.password);
+		if (Object.keys(errors).length > 0) {
+			return res.status(400).json(errors);
+		}
 
-    if(!passwordHashed) return res.status(401).json({password:"Invalid credentials"});
+		const user = await User.findOne({ username });
+		if (!user) return res.status(401).json({ password: "Invalid credentials" });
 
-    const token = jwt.sign({username},process.env.JWT_SECRET);
+		const passwordHashed = await bcrypt.compare(password, user.password);
 
-    res.set('Set-Cookie', cookie.serialize('token',token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 3600*24*30,
-      path: '/'
-    }))
+		if (!passwordHashed)
+			return res.status(401).json({ password: "Invalid credentials" });
 
-    return res.json(user);
-  } catch (err) {
-    
-  }
-}
+		const token = jwt.sign({ username }, process.env.JWT_SECRET);
 
-const me = (_:Request,res:Response) => {
-  return res.json(res.locals.user);
-}
+		res.set(
+			"Set-Cookie",
+			cookie.serialize("token", token, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === "production",
+				sameSite: "strict",
+				maxAge: 3600 * 24 * 30,
+				path: "/",
+			})
+		);
 
-const logout = async (_:Request,res:Response) => {
-  res.set('Set-Cookie',cookie.serialize('token','', {
-    httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      expires: new Date(0),
-      path: '/'
-  }))
+		return res.json(user);
+	} catch (err) {}
+};
 
-  return res.status(200).json({success: true});
-}
+const me = (_: Request, res: Response) => {
+	return res.json(res.locals.user);
+};
+
+const logout = async (_: Request, res: Response) => {
+	res.set(
+		"Set-Cookie",
+		cookie.serialize("token", "", {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "strict",
+			expires: new Date(0),
+			path: "/",
+		})
+	);
+
+	return res.status(200).json({ success: true });
+};
 
 const router = Router();
-router.post('/register',register);
-router.post('/login',login);
-router.get('/me',user,auth,me);
-router.get('/logout',user,auth,logout);
+router.post("/register", register);
+router.post("/login", login);
+router.get("/me", user, auth, me);
+router.get("/logout", user, auth, logout);
 
 export default router;
