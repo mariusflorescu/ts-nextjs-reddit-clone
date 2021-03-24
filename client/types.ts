@@ -5,6 +5,13 @@ export interface User{
   updatedAt:string;
 }
 
+export interface Comment {
+  username:string;
+  identifier:string;
+  body:string;
+  createdAt:string;
+  updatedAt:string;
+}
 export interface Post {
   identifier: string;
   username:string;
@@ -14,6 +21,7 @@ export interface Post {
   subName:string;
   createdAt:string;
   updatedAt:string;
+  comments:Comment[];
   url:string;
   userVote?:number;
   commentCnt:number;

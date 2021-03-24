@@ -36,13 +36,13 @@ export const PostCard : React.FC<IProps> = ({data}) =>{
       </div>
 
       <Link href={data.url}>
-        <Fragment>
           <a className="my-1 text-lg font-medium">{data.title}</a>  
-          {data.body && (
-            <p className="my-1 text-sm">{data.body}</p>
-          )}
-        </Fragment>
       </Link>
+          {data.body && (
+          <Link href={data.url}>
+            <p className="my-1 text-sm">{data.body}</p> 
+          </Link>
+          )}
 
       <div className="flex">
         <Link href={data.url}>

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import Axios from 'axios'
 
 import {PostCard} from '../../components/PostCard'
-import { ChangeEvent, ChangeEventHandler, createRef, useEffect, useState } from 'react';
+import { ChangeEvent, createRef } from 'react';
 
 import {useAuthState} from '../../context/auth'
 
