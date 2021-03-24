@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Axios from 'axios'
 import useSWR from 'swr'
 
-
+import {CreatePost} from '../components/CreatePost'
 import {PostCard} from '../components/PostCard'
 import {TopSubs} from '../components/TopSubs'
 
@@ -34,7 +34,7 @@ export default function Home(){
        <div className="flex">
         <h1 className="text-xl">
             <div className="flex flex-col space-y-2 w-160">
-            
+                <CreatePost/>
                 {posts?.map(post => (
                 <PostCard key={post.identifier} data={post}/>
                 ))}

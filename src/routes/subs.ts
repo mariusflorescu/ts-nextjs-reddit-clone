@@ -49,6 +49,17 @@ const createSub =  async (req:Request,res:Response) => {
   }
 }
 
+const getAllSubs = async (req:Request,res:Response) => {
+  try {
+    const subs = await Sub.find();
+
+    return res.json(subs);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({error: 'Ahh... Something went wrong'})
+  }
+}
+
 const getSub = async (req:Request,res:Response) => {
   const name = req.params.name;
 
@@ -164,6 +175,7 @@ const getTop5Subs = async (req:Request,res:Response) => {
 const router = Router()
 
 router.post('/',user,auth,createSub);
+router.get('/',getAllSubs);
 router.get('/top',getTop5Subs);
 router.get('/:name',user,getSub);
 router.post('/:name/image',user,auth,ownSub,upload.single('file'),uploadSubImage);
