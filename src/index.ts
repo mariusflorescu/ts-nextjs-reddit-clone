@@ -12,7 +12,7 @@ import authRoutes from './routes/auth';
 import postRoutes from './routes/posts';
 import subRoutes from './routes/subs'
 import commentRoutes from './routes/comments'
-import voteRoute from './routes/vote';
+import miscRoutes from './routes/misc';
 
 import trim from './middleware/trim'
 
@@ -29,12 +29,12 @@ app.use(cors({
 
 app.use(express.static('public'));
 
-app.get('/',(req,res) => res.send('Hello world'));
+app.get('/',(_,res) => res.send('Hello world'));
 app.use('/api/auth',authRoutes);
 app.use('/api/posts',postRoutes);
 app.use('/api/subs',subRoutes);
 app.use('/api/posts',commentRoutes);
-app.use('/api/misc',voteRoute);
+app.use('/api/misc',miscRoutes);
 
 app.listen(5000, async () => {
     console.log('server running on localhost:5000');

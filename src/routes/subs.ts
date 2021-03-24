@@ -142,9 +142,29 @@ const uploadSubImage = async (req:Request,res:Response) => {
   }
 }
 
+const getTop5Subs = async (req:Request,res:Response) => {
+  try {
+    const subs = await Sub.find({
+      relations: ['posts']
+    });
+
+    const orderedSubs = subs.sort(function(a,b){
+      return b.posts.length - a.posts.length;
+    })
+
+    const top5 = orderedSubs.slice(0,5);
+
+    return res.json(top5);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({error: 'Ahh... Something went wrong'});
+  }
+}
+
 const router = Router()
 
-router.post('/',user,auth,createSub)
+router.post('/',user,auth,createSub);
+router.get('/top',getTop5Subs);
 router.get('/:name',user,getSub);
 router.post('/:name/image',user,auth,ownSub,upload.single('file'),uploadSubImage);
 
