@@ -9,7 +9,7 @@ interface IProps {
 
 export const TopSubs : React.FC<IProps> = ({subs}) => {
   return (
-    <div className="flex flex-col ml-6 bg-white border border-gray-300 rounded-md w-72 h-96">
+    <div className="flex flex-col invisible ml-6 bg-white border border-gray-300 rounded-md lg:visible w-72 h-96">
               <div className="pt-10 pb-2 pl-4 text-white bg-purple-500 rounded-t-md">
                 Top Communities
               </div>
